@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Rule from '../components/Rule.astro';
+import StatBand from '../components/StatBand.astro';
+import About from '../components/About.astro';
+import Work from '../components/Work.astro';
+import Skills from '../components/Skills.astro';
+import Experience from '../components/Experience.astro';
+import NowContact from '../components/NowContact.astro';
+import TerminalCta from '../components/TerminalCta.astro';
+import Footer from '../components/Footer.astro';
+import Terminal from '../components/Terminal/Terminal.tsx';
+---
+<Base>
+  <div class="container">
+    <Header />
+    <main id="main">
+      <Hero />
+      <Rule />
+      <StatBand />
+      <Rule />
+      <About />
+      <Rule />
+      <Work />
+      <Rule />
+      <Skills />
+      <Rule />
+      <Experience />
+      <Rule />
+      <NowContact />
+      <TerminalCta />
+    </main>
+    <Footer />
+    <Terminal client:idle />
+  </div>
+</Base>
+
+<script>
+  // Reveal-on-scroll. Only runs when motion is welcome; adds the `.reveal`
+  // hidden-state class itself, so a no-JS / reduced-motion visitor never sees
+  // hidden content. Matching CSS lives under prefers-reduced-motion:no-preference.
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    // the hero is above the fold — revealing it just makes it flash in on load.
+    const targets = document.querySelectorAll<HTMLElement>(
+      '#main > section:not(.hero), .site-footer',
+    );
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-in');
+            io.unobserve(e.target);
+          }
+        }
+      },
+      { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+    );
+    for (const t of targets) {
+      t.classList.add('reveal');
+      io.observe(t);
+    }
+  }
+</script>

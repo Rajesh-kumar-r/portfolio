@@ -1,0 +1,11 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="site-footer__text">
+    <span>Rajesh Kumar R — {year}</span>
+    <span class="site-footer__mono">the terminal knows more than the page</span>
+  </div>
+  <ThemeToggle />
+</footer>

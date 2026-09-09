@@ -1,0 +1,18 @@
+---
+import { SKILLS } from '../data/resume';
+---
+<section id="stack" class="skills" aria-labelledby="stack-label">
+  <h2 class="eyebrow" id="stack-label">03 — Skills</h2>
+  <div class="skills__list">
+    {SKILLS.map((g) => (
+      <div class="skills__row">
+        <div class="skills__label">{g.label}</div>
+        <div class="skills__items">
+          {g.items.map((i) => (
+            <span class="tag tag-outline">{i}</span>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,37 @@
+/* [data-theme="light"] token overrides — derived from nocturne.css dark tokens per spec §5.2.
+   This is a TOKEN-DEFINITION file: raw hex / rgba() literals here are expected (they define
+   the tokens the component CSS resolves through). */
+:root[data-theme="light"] {
+  --color-bg: #f4f4f7;
+  --color-surface: #fbfbfd;
+  --color-text: #1b1c24;
+  --color-divider: color-mix(in srgb, #1b1c24 14%, transparent);
+
+  /* Neutral ramp — contrast-derived for the light ground (controller ruling: the spec's
+     straight mirror is superseded). Monotonic lightness (100 darkest → 900 lightest), cool-grey
+     hue family. Ratios vs --color-bg #f4f4f7 / --color-surface #fbfbfd:
+       -100 12.99 / 13.80   -200 10.29 / 10.93   -300 7.53 / 8.00  (text-on-tint, body copy)
+       -400  5.69 / 6.04    -500  5.06 / 5.37    -600 4.63 / 4.91  (13–15px & 12–13px text, all ≥ AA 4.5)
+       -700  3.58 / 3.80  (brand-hint glyph, ≥3)  -800 1.40 / 1.49  (visible 1px hairline)
+       -900  1.06 / 1.12  (near-bg fill) */
+  --color-neutral-100: #262a39;
+  --color-neutral-200: #363a49;
+  --color-neutral-300: #4a4e5d;
+  --color-neutral-400: #5c6070;
+  --color-neutral-500: #646876;
+  --color-neutral-600: #6a6e7c;
+  --color-neutral-700: #7c8090;
+  --color-neutral-800: #cdd0dc;
+  --color-neutral-900: #eceef5;
+
+  /* Accent ramp keeps hue/chroma/steps as-is; only the semantic aliases move.
+     Small accent labels are text → need AA: -700 (#5d5294) = 6.17:1 on #f4f4f7 (-600 at 4.06 fails).
+     --accent-line is border/graphical only → -600 (#796cbf) = 4.06:1 is fine (≥3). */
+  --accent-text: var(--color-accent-700);
+  --accent-line: var(--color-accent-600);
+
+  /* Soft ink-tinted elevation. */
+  --shadow-sm: 0 1px 2px rgba(20,20,28,.08), 0 0 0 1px rgba(20,20,28,.06);
+  --shadow-md: 0 6px 18px rgba(20,20,28,.12), 0 0 0 1px rgba(20,20,28,.06);
+  --shadow-lg: 0 16px 40px rgba(20,20,28,.16), 0 0 0 1px rgba(20,20,28,.08);
+}

@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Not found" noindex>
+  <div class="container">
+    <main id="main" class="notfound">
+      <h1 class="notfound__title">404 — lost the thread</h1>
+      <p class="notfound__body">That page isn't here. It may have moved, or it never existed. The terminal at the bottom of the home page knows more than the site map does.</p>
+      <a href="/">back to the top</a>
+    </main>
+  </div>
+</Base>
+
+<style>
+  .notfound {
+    display: grid;
+    gap: var(--space-8);
+    max-width: 60ch;
+    padding: clamp(80px, 18vh, 200px) 0 clamp(40px, 10vh, 120px);
+  }
+  .notfound__title {
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: clamp(30px, 5vw, 52px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+  .notfound__body {
+    margin: 0;
+    font-size: clamp(15px, 1.6vw, 17px);
+    line-height: 1.6;
+    color: var(--color-neutral-400);
+    text-wrap: pretty;
+  }
+</style>

@@ -1,0 +1,27 @@
+---
+import { ROLES, EXPERIENCE_META } from '../data/resume';
+---
+<section id="experience" class="experience" aria-labelledby="experience-label">
+  <div class="experience__head">
+    <h2 class="eyebrow" id="experience-label">04 — Experience</h2>
+    <div class="experience__location">{EXPERIENCE_META.location}</div>
+  </div>
+  <div class="experience__company-line">
+    <div class="experience__company">{EXPERIENCE_META.company}</div>
+    <div class="experience__total">{EXPERIENCE_META.total}</div>
+  </div>
+  <div class="experience__list">
+    {ROLES.map((r) => (
+      <div class="experience__row">
+        <div class="experience__meta">
+          <div class="experience__when">{r.when}</div>
+          <div class="experience__span">{r.span}</div>
+        </div>
+        <div class="experience__detail">
+          <div class="experience__title">{r.title}</div>
+          <div class="experience__mode">{r.mode}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

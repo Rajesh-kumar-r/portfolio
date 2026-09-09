@@ -1,0 +1,17 @@
+---
+---
+<section id="terminal" class="term-cta-section" aria-labelledby="terminal-label">
+  <h2 class="eyebrow" id="terminal-label">07 — Terminal</h2>
+  <p class="term-cta__copy">
+    Everything above, typed instead of scrolled. <span class="term-cta__kw">help</span> to start.
+  </p>
+  <button class="term-cta" type="button">
+    <span class="term-cta__prompt">rajesh@portfolio $</span>
+    <span class="term-cta__label">open terminal — or press <span class="term-cta__key">~</span> anywhere</span>
+    <span class="term-cta__caret"></span>
+  </button>
+</section>
+
+<script>
+  document.querySelector('.term-cta')?.addEventListener('click', () => window.dispatchEvent(new CustomEvent('rk:open-terminal')));
+</script>

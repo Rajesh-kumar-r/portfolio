@@ -1,0 +1,69 @@
+---
+import { PROJECTS } from '../data/resume';
+---
+<section id="work" class="work" aria-labelledby="work-label">
+  <div class="work__controls">
+    <h2 class="eyebrow" id="work-label">02 — Selected work</h2>
+    <div class="work__nav">
+      <span class="slide-label">01 / 04</span>
+      <div class="work__buttons">
+        <button class="work-prev" aria-label="Previous project">←</button>
+        <button class="work-next" aria-label="Next project">→</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="work-track">
+    {PROJECTS.map((p) => (
+      <article class="work-card">
+        <div class="work-card__no">{p.no}</div>
+        <h3 class="work-card__title">{p.title}</h3>
+        <p class="work-card__body">{p.body}</p>
+        <div class="work-card__tags">
+          {p.tech.map((t) => (
+            <span class="tag tag-outline">{t}</span>
+          ))}
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <div class="work__dots">
+    {PROJECTS.map((_, i) => (
+      <button class="work-dot" aria-label={`Go to project ${i + 1}`}></button>
+    ))}
+  </div>
+</section>
+
+<script>
+  const track = document.querySelector<HTMLElement>('.work-track')!;
+  const label = document.querySelector<HTMLElement>('.slide-label')!;
+  const dots = [...document.querySelectorAll<HTMLButtonElement>('.work-dot')];
+  const cards = [...track.children] as HTMLElement[];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let active = 0;
+  const total = cards.length;
+  const pad = (n: number) => String(n).padStart(2, '0');
+  function render() {
+    label.textContent = `${pad(active + 1)} / ${pad(total)}`;
+    dots.forEach((d, i) => d.setAttribute('aria-current', String(i === active)));
+  }
+  function go(i: number) {
+    active = Math.max(0, Math.min(total - 1, i));
+    track.scrollTo({ left: cards[active].offsetLeft - track.offsetLeft, behavior: reduce ? 'auto' : 'smooth' });
+    render();
+  }
+  document.querySelector('.work-prev')!.addEventListener('click', () => go(active - 1));
+  document.querySelector('.work-next')!.addEventListener('click', () => go(active + 1));
+  dots.forEach((d, i) => d.addEventListener('click', () => go(i)));
+  let t: number;
+  track.addEventListener('scroll', () => {
+    clearTimeout(t);
+    t = window.setTimeout(() => {
+      const w = cards[0] ? cards[0].getBoundingClientRect().width + 16.8 /* var(--space-6) */ : 1;
+      const i = Math.round(track.scrollLeft / w);
+      if (i !== active) { active = Math.max(0, Math.min(total - 1, i)); render(); }
+    }, 90);
+  });
+  render();
+</script>

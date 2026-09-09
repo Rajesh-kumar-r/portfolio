@@ -1,0 +1,22 @@
+# Cloudflare Pages headers. Syntax: a path pattern line, then indented
+# "Header: value" lines. https://developers.cloudflare.com/pages/configuration/headers/
+
+# Fingerprinted build assets never change under the same URL — cache hard.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Global security headers for every response.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  # CSP note: script-src keeps 'unsafe-inline' because the page ships several
+  # inline scripts with no external file — the theme-boot snippet (must run
+  # before first paint), the theme toggle, the Work carousel, the terminal-CTA
+  # focus handoff, and the JSON-LD Person block. Hash- or nonce-based tightening
+  # is a future improvement (see docs/DEPLOY.md). The only remote script allowed
+  # is the Cloudflare Web Analytics beacon. The resume link is a plain top-level
+  # <a> navigation (and a window.open from the terminal `resume` command) to
+  # drive.google.com — neither is governed by default-src/connect-src, so no CSP
+  # entry for Google Drive is needed.
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; base-uri 'none'; frame-ancestors 'none'

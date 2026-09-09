@@ -1,0 +1,22 @@
+---
+import { NOW, CONTACT } from '../data/resume';
+import { RESUME_URL } from '../consts';
+---
+<section class="now" aria-labelledby="now-label">
+  <div class="now__col">
+    <h2 class="eyebrow" id="now-label">05 — Now</h2>
+    <p class="now__lead">{NOW.lead}</p>
+    <p class="now__note"><a href="/writing">Writing</a>{NOW.note.replace(/^Writing/, '')}</p>
+  </div>
+  <div id="contact" class="contact" role="region" aria-labelledby="contact-label">
+    <h2 class="eyebrow" id="contact-label">06 — Contact</h2>
+    <div class="contact__links">
+      <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+      <a href={CONTACT.linkedin} target="_blank" rel="noreferrer">linkedin.com/in/rajesh-kumar-kgm</a>
+      <a href={CONTACT.github} target="_blank" rel="noreferrer">github.com/Rajesh-kumar-r</a>
+    </div>
+    <div class="contact__actions">
+      <a class="btn btn-primary" href={RESUME_URL} target="_blank" rel="noopener">Download resume (PDF)</a>
+    </div>
+  </div>
+</section>

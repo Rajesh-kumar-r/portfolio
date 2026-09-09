@@ -1,0 +1,11 @@
+---
+import { STATS } from '../data/resume';
+---
+<section class="stat-band" aria-label="At a glance">
+  {STATS.map((s) => (
+    <div class="stat-band__cell">
+      <div class="stat-band__value">{s.value}</div>
+      <div class="stat-band__label">{s.label}</div>
+    </div>
+  ))}
+</section>

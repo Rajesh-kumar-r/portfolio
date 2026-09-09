@@ -1,0 +1,112 @@
+---
+import '@fontsource/inter/300.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '../styles/nocturne.css';
+import '../styles/portfolio.css';
+import '../styles/light.css';
+import {
+  SITE_TITLE,
+  SITE_DESC,
+  SITE_URL,
+  AUTHOR,
+  JOB_TITLE,
+  OG_IMAGE,
+  OG_IMAGE_ALT,
+} from '../consts';
+import { CONTACT, EXPERIENCE_META } from '../data/resume';
+
+interface Props { title?: string; description?: string; noindex?: boolean }
+const { title, description = SITE_DESC, noindex = false } = Astro.props;
+const fullTitle = title ? `${title} — ${SITE_TITLE}` : `${SITE_TITLE} — Senior Frontend Engineer`;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(OG_IMAGE, Astro.site).href;
+
+const beaconToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: AUTHOR,
+  url: SITE_URL,
+  jobTitle: JOB_TITLE,
+  sameAs: [CONTACT.linkedin, CONTACT.github],
+  worksFor: {
+    '@type': 'Organization',
+    name: EXPERIENCE_META.company,
+  },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Karur',
+    addressRegion: 'Tamil Nadu',
+    addressCountry: 'IN',
+  },
+};
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <script is:inline>
+      (() => {
+        try {
+          const s = localStorage.getItem('theme');
+          const m = window.matchMedia('(prefers-color-scheme: light)').matches;
+          const t = s === 'light' || s === 'dark' ? s : (m ? 'light' : 'dark');
+          if (t === 'light') document.documentElement.dataset.theme = 'light';
+        } catch (e) {}
+      })();
+    </script>
+
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_TITLE} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={OG_IMAGE_ALT} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={OG_IMAGE_ALT} />
+
+    <meta name="theme-color" content="#161826" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f4f4f7" media="(prefers-color-scheme: light)" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(personLd)} />
+
+    {beaconToken && (
+      <script
+        is:inline
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={`{"token":"${beaconToken}"}`}
+      ></script>
+    )}
+  </head>
+  <body>
+    <div aria-hidden="true" class="backdrop"></div>
+    <slot />
+  </body>
+</html>
