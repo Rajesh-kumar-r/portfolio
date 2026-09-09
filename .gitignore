@@ -3,3 +3,6 @@ dist/
 .astro/
 .DS_Store
 .superpowers/
+
+# local docs (spec, plan, deploy notes) — not part of the shipped repo
+docs/
