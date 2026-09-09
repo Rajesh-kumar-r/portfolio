@@ -1,0 +1,12 @@
+{
+  // Static-assets Worker: serves the Astro `dist/` build.
+  // Build: `npm run build`  ·  Deploy: `npx wrangler deploy`
+  // (For Cloudflare Pages instead, no wrangler config is needed.)
+  "name": "portfolio",
+  "compatibility_date": "2025-06-01",
+  "assets": {
+    "directory": "./dist",
+    // serve /foo -> /foo/index.html, 404.html for misses
+    "not_found_handling": "404-page"
+  }
+}
