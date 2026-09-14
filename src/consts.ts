@@ -1,6 +1,6 @@
 export const SITE_URL: string = 'https://rajesh.fyi';
 export const SITE_TITLE: string = 'Rajesh Kumar R';
-export const SITE_TAGLINE: string = 'Senior Frontend Engineer · React · Next.js · Full-stack';
+export const SITE_TAGLINE: string = 'Senior Frontend Engineer | Full-Stack Contributor (React, Next.js)';
 export const SITE_DESC: string =
   'Senior Frontend Engineer — React.js / Next.js, 7+ years. Four large-scale applications, one company. Plus a terminal and an arcade.';
 export const AUTHOR: string = 'Rajesh Kumar R';

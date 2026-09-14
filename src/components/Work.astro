@@ -1,11 +1,15 @@
 ---
 import { PROJECTS } from '../data/resume';
+// Track shows two cards per view (see .work-track's grid-auto-columns), so
+// pagination moves — and the dots represent — full pairs, not single cards.
+const PAGE_SIZE = 2;
+const pageCount = Math.ceil(PROJECTS.length / PAGE_SIZE);
 ---
 <section id="work" class="work" aria-labelledby="work-label">
   <div class="work__controls">
     <h2 class="eyebrow" id="work-label">02 — Selected work</h2>
     <div class="work__nav">
-      <span class="slide-label">01 / 04</span>
+      <span class="slide-label">01 / {String(pageCount).padStart(2, '0')}</span>
       <div class="work__buttons">
         <button class="work-prev" aria-label="Previous project">←</button>
         <button class="work-next" aria-label="Next project">→</button>
@@ -29,28 +33,32 @@ import { PROJECTS } from '../data/resume';
   </div>
 
   <div class="work__dots">
-    {PROJECTS.map((_, i) => (
-      <button class="work-dot" aria-label={`Go to project ${i + 1}`}></button>
+    {Array.from({ length: pageCount }).map((_, i) => (
+      <button class="work-dot" aria-label={`Go to projects ${i * PAGE_SIZE + 1}–${Math.min((i + 1) * PAGE_SIZE, PROJECTS.length)}`}></button>
     ))}
   </div>
 </section>
 
 <script>
+  const PAGE_SIZE = 2;
   const track = document.querySelector<HTMLElement>('.work-track')!;
   const label = document.querySelector<HTMLElement>('.slide-label')!;
   const dots = [...document.querySelectorAll<HTMLButtonElement>('.work-dot')];
   const cards = [...track.children] as HTMLElement[];
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let active = 0;
-  const total = cards.length;
+  const totalCards = cards.length;
+  const pageCount = dots.length;
   const pad = (n: number) => String(n).padStart(2, '0');
   function render() {
-    label.textContent = `${pad(active + 1)} / ${pad(total)}`;
+    label.textContent = `${pad(active + 1)} / ${pad(pageCount)}`;
     dots.forEach((d, i) => d.setAttribute('aria-current', String(i === active)));
   }
-  function go(i: number) {
-    active = Math.max(0, Math.min(total - 1, i));
-    track.scrollTo({ left: cards[active].offsetLeft - track.offsetLeft, behavior: reduce ? 'auto' : 'smooth' });
+  function go(page: number) {
+    active = Math.max(0, Math.min(pageCount - 1, page));
+    // last page snaps to the trailing card so a short final page never leaves the track half-empty.
+    const target = active === pageCount - 1 ? totalCards - PAGE_SIZE : active * PAGE_SIZE;
+    track.scrollTo({ left: cards[Math.max(0, target)].offsetLeft - track.offsetLeft, behavior: reduce ? 'auto' : 'smooth' });
     render();
   }
   document.querySelector('.work-prev')!.addEventListener('click', () => go(active - 1));
@@ -61,8 +69,9 @@ import { PROJECTS } from '../data/resume';
     clearTimeout(t);
     t = window.setTimeout(() => {
       const w = cards[0] ? cards[0].getBoundingClientRect().width + 16.8 /* var(--space-6) */ : 1;
-      const i = Math.round(track.scrollLeft / w);
-      if (i !== active) { active = Math.max(0, Math.min(total - 1, i)); render(); }
+      const cardIndex = Math.round(track.scrollLeft / w);
+      const page = Math.min(pageCount - 1, Math.floor(cardIndex / PAGE_SIZE));
+      if (page !== active) { active = page; render(); }
     }, 90);
   });
   render();

@@ -763,7 +763,6 @@ html { scroll-behavior: smooth; }
   .work-card,
   .tag-outline,
   .btn,
-  .theme-toggle,
   .term-cta,
   .work-prev,
   .work-next,
@@ -776,7 +775,6 @@ html { scroll-behavior: smooth; }
   .work-card:hover { transform: translateY(-4px); }
   .tag-outline:hover { transform: translateY(-2px) scale(1.05); }
   .btn:hover { transform: translateY(-2px); }
-  .theme-toggle:hover { transform: translateY(-2px); }
   .term-cta:hover { transform: translateY(-3px); }
   .work-prev:hover,
   .work-next:hover { transform: translateY(-2px); }
